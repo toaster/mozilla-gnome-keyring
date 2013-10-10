@@ -1,0 +1,5 @@
+execute firefox with:
+$ G_MESSAGES_DEBUG=all firefox
+
+Change Signon.debug to true in about:config
+Firefox part will output debug info to the javascript console (CTRL+SHIFT+J)
