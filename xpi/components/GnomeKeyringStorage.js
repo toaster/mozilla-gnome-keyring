@@ -33,24 +33,24 @@ GnomeKeyringStorage.prototype = {
     init: function () {
 		this.log( "init() Start" );
 		this._lib.init();
-    }, 
+    },
 
     initWithFile: function (inFile, outFile) {
 		this.log( "initWithFile() Unimplemented function" );
-    }, 
+    },
 
     addLogin: function (login) {
 		this.log( "addLogin() Start" );
 		login.QueryInterface(Components.interfaces.nsILoginMetaInfo);
 		if( !login.guid || login.guid == "" ) {
 			let g = Components.classes['@mozilla.org/uuid-generator;1'].getService(Components.interfaces.nsIUUIDGenerator);
-			login.guid = g.generateUUID();
+			login.guid = login.username + "@" + login.hostname + "-" + g.generateUUID();
 			this.log( "addLogin() New guid:" + login.guid );
 		}
 		this._lib.addLogin( login.username, login.usernameField, login.password, login.passwordField,
 						login.formSubmitURL, login.httpRealm, login.hostname, login.guid );
     },
-    
+
     removeLogin: function (login) {
 		this.log( "removeLogin() Start" );
 		this._lib.removeLogin( login.username, login.formSubmitURL, login.httpRealm, login.hostname );
@@ -124,7 +124,7 @@ GnomeKeyringStorage.prototype = {
             this.addLogin(newLogin);
         }
     },
-    
+
 	_array2NsILoginInfo: function( outCount, entries ) {
  		this.log( "_array2NsILoginInfo() Start" );
 		let logins = [];
@@ -154,18 +154,18 @@ GnomeKeyringStorage.prototype = {
 		outCount.value = logins.length;
         return logins;
 	},
-	
+
     getAllLogins: function (outCount) {
 		this.log( "getAllLogins() Start" );
         let entries = this._lib.getAllLogins();
 		return this._array2NsILoginInfo( outCount, entries );
     },
-    
+
     getAllEncryptedLogins: function (outCount) {
 		this.log( "getAllEncryptedLogins() Start" );
         return this.getAllLogins(outCount);
     },
-    
+
     searchLogins: function (outCount, matchData) {
 		this.log( "searchLogins() Start" );
 		let propEnum = matchData.enumerator;
@@ -176,7 +176,7 @@ GnomeKeyringStorage.prototype = {
 				case "guid":
 					guid = prop.value;
 					break;
-/*					
+/*
 				case "hostname":
 				case "username":
 				case "password":
@@ -201,8 +201,8 @@ GnomeKeyringStorage.prototype = {
     },
 
     removeAllLogins: function() {
-		this.log( "removeAllLogins() Start" );      
-    }, 
+		this.log( "removeAllLogins() Start" );
+    },
 
     getAllDisabledHosts: function(count) {
 		this.log( "getAllDisabledHosts() Start" );
@@ -210,12 +210,12 @@ GnomeKeyringStorage.prototype = {
 		count.value = result.length;
 		return result;
     },
-	
+
     getLoginSavingEnabled: function(hostname) {
 		this.log( "getLoginSavingEnabled() Start" );
 		return this._lib.getLoginSavingEnabled( hostname );
     },
-    
+
     setLoginSavingEnabled: function(hostname, enabled) {
 		this.log( "setLoginSavingEnabled() Start" );
 		this._lib.setLoginSavingEnabled( hostname, enabled );
@@ -226,7 +226,7 @@ GnomeKeyringStorage.prototype = {
         let entries = this._lib.findLogins( hostname, submitURL, realm );
 		return this._array2NsILoginInfo( outCount, entries );
     },
-	
+
     countLogins: function countLogins(hostname, submitURL, realm) {
 		this.log( "countLogins() Start" );
 		var count = this._lib.countLogins(hostname, submitURL, realm);
