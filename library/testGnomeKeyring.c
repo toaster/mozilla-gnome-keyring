@@ -9,10 +9,12 @@ int main() {
 	LoginInfo* loginInfo;
 	int i;
 
+    const char *keyringName = "mozilla-test";
+
     printf( "Test GnomeKeyring\n" );
 
 	printf( "*****************WARNING*******************\n" );
-	printf( "This test is destructive!!!!!!!!!!!!!!!!!!!\n" );
+	printf( "This test is destructive to the keyring '%s'\n", keyringName );
 	printf( "Backup your wallet first\n" );
 	printf( "Continue (y/n) [n]? " );
 	if( getchar() != 'y' ) {
@@ -42,7 +44,7 @@ int main() {
     }
 
     printf( "Calling GnomeKeyring_SetKeyringName...\n" );
-    GnomeKeyring_SetKeyringName( "Firefox" );
+    GnomeKeyring_SetKeyringName(keyringName);
 // ***************************************************************************************************
     printf( "Loading symbol GnomeKeyring_AddLogin...\n" );
     typedef int (*libfunction_t)();
