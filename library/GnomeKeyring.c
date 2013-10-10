@@ -38,6 +38,7 @@
 #include "GnomeKeyring.h"
 #include <glib.h>
 #include <gnome-keyring.h>
+#include <gnome-keyring-memory.h>
 #include <string.h>
 // TODO should use profile identifier instead of a constant
 #define UNIQUE_PROFILE_ID "v2"
