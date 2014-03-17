@@ -3,13 +3,13 @@ function initializeOverlay() {
 				getService(Components.interfaces.nsIPrefBranch);
 
 	try {
-		name = pref.getCharPref("extensions.gnomekeyring.name");
+		name = pref.getCharPref("extensions.mozilla-gnome-keyring.name");
 	} catch(e) {}
 
 	if (name == "Unknown" ) {
 		var appInfo = Components.classes["@mozilla.org/xre/app-info;1"]
                         .getService(Components.interfaces.nsIXULAppInfo);
-		pref.setCharPref("extensions.gnomekeyring.name", appInfo.name );
+		pref.setCharPref("extensions.mozilla-gnome-keyring.name", appInfo.name );
 	}
 }
 

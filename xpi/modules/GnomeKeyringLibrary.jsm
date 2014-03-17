@@ -6,7 +6,7 @@ var EXPORTED_SYMBOLS = [ "GnomeKeyringLibrary" ];
 
 function GnomeKeyringLibrary() {
     this.log("GnomeKeyringLibrary() Start");
-    this._prefBranch = Services.prefs.getBranch("extensions.gnomekeyring.");
+    this._prefBranch = Services.prefs.getBranch("extensions.mozilla-gnome-keyring.");
     let gkr = this;
     const ioService = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
     var uri = ioService.newURI( "resource://libgnomekeyring", null, null);
@@ -47,7 +47,7 @@ function GnomeKeyringLibrary() {
 //							const char* aActionURL, const char* aHttpRealm,
 //							const char* aHostname, const char* aGUID );
 		gkr._AddLogin = this.gnomeKeyring.declare("GnomeKeyring_AddLogin", ctypes.default_abi, ctypes.int32_t, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr,ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr );
-//int32_t GnomeKeyring_RemoveLogin( const char* aUsername, const char* aActionURL, 
+//int32_t GnomeKeyring_RemoveLogin( const char* aUsername, const char* aActionURL,
 //							   const char* aHttpRealm, const char* aHostname )
 		gkr._RemoveLogin = this.gnomeKeyring.declare("GnomeKeyring_RemoveLogin", ctypes.default_abi, ctypes.int32_t, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr );
 //int32_t GnomeKeyring_GetLoginSavingEnabled( const char* aHostname, int32_t* _isEnabled )
@@ -69,7 +69,7 @@ function GnomeKeyringLibrary() {
     this._signonPrefBranch.QueryInterface(Components.interfaces.nsIPrefBranch);
     this._signonPrefBranch.addObserver("debug", this._debugObserver, false);
     this._debug = this._signonPrefBranch.getBoolPref("debug");
-            
+
     this._keyringNameObserver = {
         QueryInterface: XPCOMUtils.generateQI([Components.interfaces.nsIObserver,
                                                Components.interfaces.nsISupportsWeakReference]),
@@ -106,15 +106,15 @@ GnomeKeyringLibrary.prototype = {
 		this.log( "_setKeyringName() Start" );
 		this._SetKeyringName( this._keyringName );
     },
-    
+
     countLogins: function(aHostname, aActionURL, aHttpRealm) {
 		this.log( "countLogins( " + aHostname + ", " + aActionURL + ", " + aHttpRealm + " ) Start" );
-		let count = new ctypes.uint32_t; 
+		let count = new ctypes.uint32_t;
 		this._CountLogins( aHostname, aActionURL, aHttpRealm, count.address() );
 		this.log( "countLogins() logins counted = " + count.value );
 		return count.value;
     },
-    
+
 	_loginInfo2Array: function( count, loginInfo ) {
 		this.log( "_loginInfo2Array() Start loginInfo: " + loginInfo.toString() );
 		var loginArray = [];
@@ -135,62 +135,62 @@ GnomeKeyringLibrary.prototype = {
 		this.log( "_loginInfo2Array() Count: " + loginArray.length );
 		return loginArray;
 	},
-    
+
     getAllLogins: function() {
 		this.log( "getAllLogins() Start" );
-		var count = new ctypes.uint32_t; 
+		var count = new ctypes.uint32_t;
 		var loginInfo = new this._LoginInfo.ptr;
 		this._GetAllLogins( count.address(), loginInfo.address() );
 		loginInfoAsArray = ctypes.cast( loginInfo, this._LoginInfo.array( count.value ).ptr );
 		return this._loginInfo2Array( count.value, loginInfoAsArray );
     },
-    
+
     findLogins: function( aHostname, aActionURL, aHttpRealm) {
 		this.log( "findLogins( " + aHostname + ", " + aActionURL + ", " + aHttpRealm + " ) Start" );
-		let count = new ctypes.uint32_t; 
+		let count = new ctypes.uint32_t;
 		let loginInfo = new this._LoginInfo.ptr;
 		this._FindLogins( count.address(), aHostname, aActionURL, aHttpRealm, loginInfo.address() );
 		loginInfoAsArray = ctypes.cast( loginInfo, this._LoginInfo.array( count.value ).ptr );
 		return this._loginInfo2Array( count.value, loginInfoAsArray );
     },
-    
+
     findLoginsWithGuid: function( aGuid ) {
 		this.log( "findLoginsWithGuid( " + aGuid + " ) Start" );
-		let count = new ctypes.uint32_t; 
+		let count = new ctypes.uint32_t;
 		let loginInfo = new this._LoginInfo.ptr;
 		this._FindLoginsWithGUID( count.address(), aGuid, loginInfo.address() );
 		loginInfoAsArray = ctypes.cast( loginInfo, this._LoginInfo.array( count.value ).ptr );
 		return this._loginInfo2Array( count.value, loginInfoAsArray );
     },
-    
+
     removeLogin: function(aUsername, aActionURL, aHttpRealm, aHostname) {
 		this.log( "removeLogin( " + aUsername + ", " + aHostname + ", " + aActionURL + ", " + aHttpRealm + " ) Start" );
 		this._RemoveLogin(aUsername, aActionURL, aHttpRealm, aHostname);
     },
-    
+
 	addLogin: function( aUsername, aUsernameField, aPassword, aPasswordField,
 						aActionURL, aHttpRealm, aHostname, aGUID ) {
 		this.log( "addLogin( " + aUsername + ", " + aHostname + ", " + aGUID + " ) Start" );
 		return this._AddLogin( aUsername, aUsernameField, aPassword, aPasswordField,
 						aActionURL, aHttpRealm, aHostname, aGUID );
 	},
-    
+
     getLoginSavingEnabled: function(aHostname) {
 		this.log( "getLoginSavingEnabled( " + aHostname + " ) Start" );
-		let isEnabled = new ctypes.uint32_t; 
+		let isEnabled = new ctypes.uint32_t;
 		this._GetLoginSavingEnabled( aHostname, isEnabled.address() );
 		this.log( "countLogins() logins counted = " + isEnabled.value != 0 );
 		return isEnabled.value != 0;
     },
-    
+
     setLoginSavingEnabled: function(aHostname, isEnabled) {
 		this.log( "setLoginSavingEnabled( " + aHostname + "," + isEnabled + " ) Start" );
 		this._SetLoginSavingEnabled( aHostname, isEnabled );
     },
-    
+
     getAllDisabledHosts: function() {
 		this.log( "getAllDisabledHosts() Start" );
-		let count = new ctypes.uint32_t; 
+		let count = new ctypes.uint32_t;
 		let disabledHosts = new ctypes.char.ptr.ptr;
 		this._GetAllDisabledHosts( count.address(), disabledHosts.address() );
 		disabledHostsAsArray = ctypes.cast( disabledHosts, ctypes.char.ptr.array( count.value ).ptr );

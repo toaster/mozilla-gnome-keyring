@@ -1,0 +1,4 @@
+<!ENTITY prefwindow.title "Préférences de Firefox-GnomeKeyring">
+<!ENTITY pane1.title "Préférences de Firefox-GnomeKeyring">
+<!ENTITY name.label "Porte-clés nom">
+<!ENTITY name.accesskey "N">

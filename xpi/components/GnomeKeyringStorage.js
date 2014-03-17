@@ -1,6 +1,6 @@
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 Components.utils.import("resource://gre/modules/Services.jsm");
-Components.utils.import("resource://gnomekeyring/modules/GnomeKeyringLibrary.jsm");
+Components.utils.import("resource://mozilla-gnome-keyring/modules/GnomeKeyringLibrary.jsm");
 
 function GnomeKeyringStorage() {
     XPCOMUtils.defineLazyGetter(this, "_lib", function() new GnomeKeyringLibrary());
@@ -8,7 +8,7 @@ function GnomeKeyringStorage() {
 
 GnomeKeyringStorage.prototype = {
     classDescription: "GnomeKeyring Login Manager Storage",
-    contractID:       "@guillermo.molina/gnomekeyring;1",
+    contractID:       "@pruetz.net/mozilla-gnome-keyring;1",
     classID:          Components.ID("{3fea2231-2801-45c0-8bdd-84b82bd6c62c}"),
     QueryInterface:   XPCOMUtils.generateQI([Components.interfaces.nsISupports,
                                              Components.interfaces.nsILoginManagerStorage]),

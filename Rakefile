@@ -41,6 +41,9 @@ end
 task :xpi => [:install, "xpi:install_rdf", "xpi:package"]
 
 namespace :xpi do
+  # TODO Generate xpi/defaults/preferences/prefs.js
+  # TODO Generate xpi/chrome.manifest (and create a component UUID)
+  # TODO Patch xpi/* which contains mozilla-gnome-keyring or pruetz.net
   task :install_rdf do
     File.open(File.join(xpi_dir, "install.rdf"), "w") do |f|
       f.write <<-EOF
@@ -79,6 +82,7 @@ namespace :xpi do
 
   task :package do
     xpi = File.expand_path("../#{id}.xpi", __FILE__)
+    rm_f xpi
     chdir xpi_dir do
       system "zip -r #{xpi} ."
     end
