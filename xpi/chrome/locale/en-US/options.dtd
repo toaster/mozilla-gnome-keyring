@@ -1,4 +1,4 @@
-<!ENTITY prefwindow.title "Firefox-GnomeKeyring preferences">
-<!ENTITY pane1.title "Firefox-GnomeKeyring preferences">
+<!ENTITY prefwindow.title "Mozilla-Gnome-Keyring preferences">
+<!ENTITY pane1.title "Mozilla-Gnome-Keyring preferences">
 <!ENTITY name.label "Keyring name">
 <!ENTITY name.accesskey "N">

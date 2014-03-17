@@ -1,4 +1,4 @@
-<!ENTITY prefwindow.title "Firefox-GnomeKeyring Einstellungen">
-<!ENTITY pane1.title "Firefox-GnomeKeyring Einstellungen">
-<!ENTITY name.label "Schlüsselanhänger Namen">
+<!ENTITY prefwindow.title "Mozilla-Gnome-Keyring Einstellungen">
+<!ENTITY pane1.title "Mozilla-Gnome-Keyring Einstellungen">
+<!ENTITY name.label "Name des Schlüsselbundes">
 <!ENTITY name.accesskey "N">

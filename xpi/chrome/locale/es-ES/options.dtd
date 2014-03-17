@@ -1,4 +1,4 @@
-<!ENTITY prefwindow.title "Preferencias de Firefox-GnomeKeyring">
-<!ENTITY pane1.title "Preferencias de Firefox-GnomeKeyring">
+<!ENTITY prefwindow.title "Preferencias de Mozilla-Gnome-Keyring">
+<!ENTITY pane1.title "Preferencias de Mozilla-Gnome-Keyring">
 <!ENTITY name.label "Nombre del depósito de claves">
 <!ENTITY name.accesskey "N">
